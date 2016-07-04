@@ -1,6 +1,7 @@
 package easymed.usuario;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -11,12 +12,16 @@ public class Aguarde extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aguarde);
 
-        try {
-            wait(3000);
-            Intent it = new Intent(Aguarde.this,PedidoRealizado.class);
-            startActivity(it);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                // Actions to do after 10 seconds
+                Intent it = new Intent(Aguarde.this,PedidoRealizado.class);
+                startActivity(it);
+                finish();
+            }
+        }, 3000);
+
+
     }
 }
