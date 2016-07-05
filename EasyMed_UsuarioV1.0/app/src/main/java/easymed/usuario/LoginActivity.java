@@ -3,6 +3,8 @@ package easymed.usuario;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -28,9 +30,7 @@ public class LoginActivity extends AppCompatActivity{
     private TextView info;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-    private JSONObject fbJsonObj = new JSONObject();
-
-    String user_name;
+    Button email_sign_in_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,18 @@ public class LoginActivity extends AppCompatActivity{
 
         info = (TextView)findViewById(R.id.info);
         callbackManager = CallbackManager.Factory.create();
+
+        email_sign_in_button = (Button)findViewById(R.id.email_sign_in_button);
+        email_sign_in_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(LoginActivity.this, MainActivity.class);
+//                it.putExtra("fbJsonObj", jsonObj.toString());
+//                it.putExtra("jsonObjDados",jsonObjDados.toString());
+                startActivity(it);
+                finish();
+            }
+        });
 
         loginButton = (LoginButton)findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday, user_friends"));
