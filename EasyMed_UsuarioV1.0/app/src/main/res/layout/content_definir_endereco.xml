@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,4 +12,79 @@
     tools:context="easymed.usuario.DefinirEndereco"
     tools:showIn="@layout/activity_definir_endereco">
 
-</RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Endereço:"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+            <EditText
+                android:id="@+id/type_rua"
+                android:hint="Rua"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+
+            <EditText
+                android:id="@+id/type_numero"
+                android:hint="Número"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+
+            <EditText
+                android:id="@+id/type_complemento"
+                android:hint="Complemento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <EditText
+                android:id="@+id/type_bairro"
+                android:hint="Bairro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+
+            <EditText
+                android:id="@+id/type_cidade"
+                android:hint="Cidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <EditText
+                android:id="@+id/type_estado"
+                android:hint="Estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <Button
+                android:id="@+id/cadastrar_endereco"
+                android:text="Cadastrar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>
