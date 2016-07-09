@@ -44,5 +44,14 @@ public class ConfirmarPedido extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent it = new Intent(ConfirmarPedido.this, MainActivity.class);
+//                it.putExtra("fbJsonObj", jsonObj.toString());
+//                it.putExtra("jsonObjDados",jsonObjDados.toString());
+        startActivity(it);
+        finish();
+    }
+
 
 }

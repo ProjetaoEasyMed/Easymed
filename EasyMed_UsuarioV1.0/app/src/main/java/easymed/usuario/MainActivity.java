@@ -1,9 +1,11 @@
 package easymed.usuario;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,7 +34,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
                 Intent it = new Intent(MainActivity.this, ScrollingActivity.class);
                 startActivity(it);
-                finish();
             }
         });
 
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
                 Intent it = new Intent(MainActivity.this, ConfirmarPedido.class);
                 startActivity(it);
-                finish();
             }
         });
 
@@ -60,13 +60,30 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        //OnBackPressed para sair perguntando ao usuário se ele esta certo disso.
+       new AlertDialog.Builder(this)
+           .setTitle("Sair")
+           .setMessage("Deseja realmente sair?")
+           .setNegativeButton(android.R.string.no, null)
+           .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+               public void onClick(DialogInterface arg0, int arg1) {
+                   DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                   if (drawer.isDrawerOpen(GravityCompat.START)) {
+                       drawer.closeDrawer(GravityCompat.START);
+                   } else {
+                       MainActivity.super.onBackPressed();
+                   }
+               }
+
+           }).create().show();
         }
-    }
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       // if (drawer.isDrawerOpen(GravityCompat.START)) {
+        //    drawer.closeDrawer(GravityCompat.START);
+        //} else {
+         //   super.onBackPressed();
+        //}
+   // }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
