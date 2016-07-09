@@ -71,6 +71,12 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
         //fim do povoamento de exemplo
 
         Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
+        if(it.hasNext())
+        {
+            TableRow listaVaziaRow = (TableRow) findViewById(R.id.listaVaziaRow);
+            screenList.removeView(listaVaziaRow);
+        }
+
         while(it.hasNext())
         {
             Map.Entry pair = (Map.Entry) it.next();
@@ -78,8 +84,11 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
             TableRow linha = new TableRow(this);
 
             TextView qtd = new TextView(this);
+            qtd.setTextAppearance(this, android.R.style.TextAppearance_Medium);
             TextView nomeProduto = new TextView(this);
+            nomeProduto.setTextAppearance(this, android.R.style.TextAppearance_Medium);
             TextView preco = new TextView(this);
+            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
 
             ProdutoInfo product = findProduct((int)pair.getKey());
 
