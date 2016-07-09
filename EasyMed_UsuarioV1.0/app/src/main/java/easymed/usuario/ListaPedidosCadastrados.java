@@ -12,7 +12,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -55,30 +57,60 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
         Map<Integer,Integer> produtoQuantidadePorUsuario = new HashMap<Integer, Integer>();
 
         //povoamento de exemplo:
+        listaProd = new Vector<>();
         listaProd.add(new ProdutoInfo(1,"Viagra", "Azulzinho", 15.90, "caixa", 10));
         listaProd.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
         listaProd.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
+        listaProd.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
+        listaProd.add(new ProdutoInfo(5,"Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius", "Mussum", 10000000.00, "ipsum", 10000));
 
         produtoQuantidadePorUsuario.put(1, 3);
-        produtoQuantidadePorUsuario.put(2, 1);
         produtoQuantidadePorUsuario.put(3, 5);
+        produtoQuantidadePorUsuario.put(4, 1);
+        //produtoQuantidadePorUsuario.put(5, 1);
         //fim do povoamento de exemplo
 
-        for(int i = 0; i < produtoQuantidadePorUsuario.size(); i++)
+        Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
+        while(it.hasNext())
         {
+            Map.Entry pair = (Map.Entry) it.next();
+
             TableRow linha = new TableRow(this);
 
             TextView qtd = new TextView(this);
             TextView nomeProduto = new TextView(this);
             TextView preco = new TextView(this);
 
-            //TODO: comentar o HashMap e ver como fazer, senão vai ter que ter um loop aqui embaixo para achar cada produto
-            //qtd.setText(produtoQuantidadePorUsuario.get());
+            ProdutoInfo product = findProduct((int)pair.getKey());
+
+            qtd.setText(produtoQuantidadePorUsuario.get(product.getId()).toString());
+
+            nomeProduto.setText(product.getNome());
+
+            String p = "RS " + String.format("%.2f", product.getPreco());
+            preco.setText(p);
+
+            linha.addView(qtd);
+            linha.addView(nomeProduto);
+            linha.addView(preco);
 
             screenList.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
 
 
+    }
+
+    private ProdutoInfo findProduct(int id)
+    {
+        ProdutoInfo element = null;
+
+        for(int i = 0; i < this.listaProd.size(); i++)
+        {
+            if(listaProd.get(i).getId() == id)
+                element = listaProd.get(i);
+        }
+
+        return element;
     }
 
 }
