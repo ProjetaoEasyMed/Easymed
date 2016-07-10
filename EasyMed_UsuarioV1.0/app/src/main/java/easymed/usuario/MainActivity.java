@@ -2,6 +2,7 @@ package easymed.usuario;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,10 +14,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Timer;
+import java.util.Vector;
+
+import easymed.usuario.produtos.ProdutoInfo;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView serverSyncText;
+
+    private TableLayout mainTable;
+
+    private Vector<ProdutoInfo> listaProd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +74,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        /* Arriba CABRÓN!!! */
+        serverSyncText = (TextView) findViewById(R.id.serverSyncText);
+        animandoTexto();
+
+
+        //DELAY: "Agora PARE, sacanagem, pegue no compasso..."
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mainTable = (TableLayout) findViewById(R.id.mainTable);
+                plotarTabela();
+            }
+        }, 3000);
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -117,4 +160,95 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    /* "Toma gostosa, lapada na rachada! Você pede e eu te dou, lapada na rachada!" (variável animada agora) */
+    public void animandoTexto()
+    {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.sync_animation);
+
+        if(serverSyncText.isEnabled())
+        {
+            serverSyncText.clearAnimation();
+            serverSyncText.startAnimation(animation);
+        }
+        else
+        {
+            serverSyncText.clearAnimation();
+        }
+    }
+
+    private void plotarTabela()
+    {
+        Map<Integer,Integer> produtoQuantidadePorUsuario = new HashMap<Integer, Integer>();
+
+        //povoamento de exemplo:
+        listaProd = new Vector<>();
+        listaProd.add(new ProdutoInfo(1,"Viagra", "Azulzinho", 15.90, "caixa", 10));
+        listaProd.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
+        listaProd.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
+        listaProd.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
+        listaProd.add(new ProdutoInfo(5,"Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius", "Mussum", 10000000.00, "ipsum", 10000));
+
+        produtoQuantidadePorUsuario.put(1, 3);
+        produtoQuantidadePorUsuario.put(3, 5);
+        produtoQuantidadePorUsuario.put(4, 1);
+        //produtoQuantidadePorUsuario.put(5, 1);
+        //fim do povoamento de exemplo
+
+        Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
+        if(it.hasNext())
+        {
+            serverSyncText.setEnabled(false);
+            serverSyncText.clearAnimation();
+            mainTable.removeView(serverSyncText);
+        }
+
+        while(it.hasNext())
+        {
+            Map.Entry pair = (Map.Entry) it.next();
+
+            TableRow linha = new TableRow(this);
+
+            TextView qtd = new TextView(this);
+            qtd.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            TextView nomeProduto = new TextView(this);
+            nomeProduto.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            TextView preco = new TextView(this);
+            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+
+            ProdutoInfo product = findProduct((int)pair.getKey());
+
+            qtd.setText(produtoQuantidadePorUsuario.get(product.getId()).toString());
+
+            nomeProduto.setText(product.getNome());
+
+            String p = "RS " + String.format("%.2f", product.getPreco());
+            preco.setText(p);
+
+            linha.addView(qtd);
+            linha.addView(nomeProduto);
+            linha.addView(preco);
+
+            mainTable.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
+
+
+    }
+
+    private ProdutoInfo findProduct(int id)
+    {
+        ProdutoInfo element = null;
+
+        for(int i = 0; i < this.listaProd.size(); i++)
+        {
+            if(listaProd.get(i).getId() == id)
+                element = listaProd.get(i);
+        }
+
+        return element;
+    }
+
+
+
 }
