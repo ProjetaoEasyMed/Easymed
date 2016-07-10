@@ -29,6 +29,14 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GPS"
+                android:id="@+id/GPSbutton"
+                android:layout_gravity="right" />
+
             <EditText
                 android:id="@+id/type_rua"
                 android:hint="Rua"
