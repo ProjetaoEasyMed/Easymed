@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
                 Intent it = new Intent(MainActivity.this, ScrollingActivity.class);
                 startActivity(it);
-                finish();
+//                finish();
             }
         });
 
@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent it = new Intent(MainActivity.this, ListaPedidosCadastrados.class);
+            startActivity(it);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_manage) {
