@@ -61,8 +61,7 @@ public class DefinirEndereco extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                gpsManager();
             }
         });
 
@@ -98,13 +97,19 @@ public class DefinirEndereco extends AppCompatActivity {
         });
 
 
-        gpsButton = (Button) findViewById(R.id.GPSbutton);
-        gpsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gpsManager();
-            }
-        });
+//        gpsButton = (Button) findViewById(R.id.GPSbutton);
+//        gpsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                gpsManager();
+//            }
+//        });
+    }
+
+    public void onBackPressed(){
+        Intent it = new Intent(DefinirEndereco.this, MainActivity.class);
+        startActivity(it);
+        finish();
     }
 
     /* "I don't know who you are, but I will find you and I will kill you!" (Taken) */
