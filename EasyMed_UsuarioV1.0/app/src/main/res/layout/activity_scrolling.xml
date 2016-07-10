@@ -29,6 +29,15 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/searchText"
+                android:gravity="bottom"
+                android:textSize="40dp"
+                android:id="@+id/barraPesquisa"
+                android:paddingBottom="30dp" />
+
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
