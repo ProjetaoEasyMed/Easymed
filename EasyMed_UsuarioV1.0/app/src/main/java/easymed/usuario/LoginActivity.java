@@ -38,20 +38,20 @@ public class LoginActivity extends AppCompatActivity{
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
-        info = (TextView)findViewById(R.id.info);
+       // info = (TextView)findViewById(R.id.info);
         callbackManager = CallbackManager.Factory.create();
 
-        email_sign_in_button = (Button)findViewById(R.id.email_sign_in_button);
-        email_sign_in_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(LoginActivity.this, MainActivity.class);
+       // email_sign_in_button = (Button)findViewById(R.id.email_sign_in_button);
+        //email_sign_in_button.setOnClickListener(new View.OnClickListener() {
+           // @Override
+           // public void onClick(View v) {
+               // Intent it = new Intent(LoginActivity.this, MainActivity.class);
 //                it.putExtra("fbJsonObj", jsonObj.toString());
 //                it.putExtra("jsonObjDados",jsonObjDados.toString());
-                startActivity(it);
-                finish();
-            }
-        });
+               // startActivity(it);
+               // finish();
+           // }
+       // });
 
         loginButton = (LoginButton)findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday, user_friends"));
