@@ -121,5 +121,6 @@
     <string name="title_activity_lista_pedidos_cadastrados">Lista de Itens Cadastrados</string>
     <string name="lista_vazia">Lista Vazia…</string>
     <string name="title_activity_definir_endereco">Dados Adicionais</string>
+    <string name="sync_server_text">Sincronizando com o servidor...</string>
 
 </resources>
