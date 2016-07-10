@@ -16,7 +16,9 @@
         android:id="@+id/confirm_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="46dp" />
+        android:layout_marginEnd="46dp"
+        android:background="@mipmap/button_bg"
+        android:textColor="#ffffff" />
 
     <Button
         android:layout_width="wrap_content"
@@ -25,7 +27,12 @@
         android:id="@+id/back_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="48dp" />
+        android:layout_marginStart="48dp"
+        android:background="@mipmap/button_bg"
+        android:enabled="true"
+        android:focusableInTouchMode="true"
+        android:focusable="false"
+        android:textColor="#ffffff" />
 
     <RadioButton
         android:layout_width="wrap_content"

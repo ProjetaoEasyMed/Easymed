@@ -70,7 +70,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@mipmap/button_bg"
+                android:singleLine="false"
+                android:textColor="#ffffff" />
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
