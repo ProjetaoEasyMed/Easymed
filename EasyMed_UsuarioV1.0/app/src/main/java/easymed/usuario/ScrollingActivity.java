@@ -51,7 +51,6 @@ public class ScrollingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
         /* O MONSTRO SAIU DA JAULA!!! */
         listMedicines = (TableLayout) findViewById(R.id.listMedicines);
         barraPesquisa = (EditText) findViewById(R.id.barraPesquisa);
@@ -68,6 +67,12 @@ public class ScrollingActivity extends AppCompatActivity {
         //Fim do Povoamento
 
         imprimeListaNaTela(medicamentos);
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        this.finish();
     }
 
     private void imprimeListaNaTela(Vector<ProdutoInfo> medicamentos)

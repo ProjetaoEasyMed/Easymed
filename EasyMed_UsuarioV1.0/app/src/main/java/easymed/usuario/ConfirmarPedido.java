@@ -42,7 +42,13 @@ public class ConfirmarPedido extends AppCompatActivity {
         });
 
 
+
     }
 
+    @Override
+    public void onBackPressed(){
+            ConfirmarPedido.super.onBackPressed();
+            this.finish();
+    }
 
 }

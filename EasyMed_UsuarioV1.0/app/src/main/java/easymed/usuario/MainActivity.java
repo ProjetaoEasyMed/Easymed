@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Intent it = new Intent(MainActivity.this, ConfirmarPedido.class);
                 startActivity(it);
-                finish();
+//                finish();
             }
         });
 
