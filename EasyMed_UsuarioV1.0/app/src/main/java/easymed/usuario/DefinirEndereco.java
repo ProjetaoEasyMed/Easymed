@@ -1,9 +1,14 @@
 package easymed.usuario;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.Vector;
+import java.util.jar.Manifest;
 
 public class DefinirEndereco extends AppCompatActivity {
 
@@ -21,12 +27,17 @@ public class DefinirEndereco extends AppCompatActivity {
      */
 
     private Button cadastrar;
+    private Button gpsButton;
+
     private EditText rua;
     private EditText numero;
     private EditText complemento;
     private EditText bairro;
     private EditText cidade;
     private EditText estado;
+
+    private Location location;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +84,35 @@ public class DefinirEndereco extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        gpsButton = (Button) findViewById(R.id.GPSbutton);
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gpsManager();
+            }
+        });
+    }
+
+    /* "I don't know who you are, but I will find you and I will kill you!" (Taken) */
+    private void gpsManager()
+    {
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            System.out.println("llatitude: "+location.getLatitude());
+            System.out.println("llongitude: "+location.getLongitude());
+
+            
+        }
+        else
+        {
+            System.out.println("ai caramba!!!");
+            //permissão negada!
+        }
     }
 
 }
