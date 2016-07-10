@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity{
 //                System.out.println("FBOBJ========>    " + fbJsonObj.toString());
 //                it.putExtra("fbJsonObj", fbJsonObj.toString());
                 startActivity(it);
+                finish();
             }
 
             @Override

@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent it = new Intent(MainActivity.this, ListaPedidosCadastrados.class);
             startActivity(it);
         } else if (id == R.id.nav_gallery) {
-
+            finish();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
