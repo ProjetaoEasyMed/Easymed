@@ -38,7 +38,10 @@ public class ScrollingActivity extends AppCompatActivity {
                 String palavraBuscada = barraPesquisa.getText().toString();
 
                 if(palavraBuscada.length() > 0)
-                    filtrarLista(palavraBuscada);
+                {
+                    Vector<ProdutoInfo> newList = filtrarLista(palavraBuscada);
+                    imprimeListaNaTela(newList);
+                }
                 else
                 {
                     Snackbar.make(view, "Campo de busca vazio", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -64,6 +67,11 @@ public class ScrollingActivity extends AppCompatActivity {
         medicamentos.add(new ProdutoInfo(6,"Licor de Cacau", "Xavier", 5.00, "ml", 50));
         //Fim do Povoamento
 
+        imprimeListaNaTela(medicamentos);
+    }
+
+    private void imprimeListaNaTela(Vector<ProdutoInfo> medicamentos)
+    {
         for(int i = 0; i < medicamentos.size(); i++)
         {
             TableRow linha = new TableRow(this);
@@ -90,11 +98,21 @@ public class ScrollingActivity extends AppCompatActivity {
         }
     }
 
-    private void filtrarLista(String word)
+    private Vector<ProdutoInfo> filtrarLista(String word)
     {
         listMedicines.removeViews(1, medicamentos.size()); //FODAAAAAO: Remove as views, mas deixa o Menu
 
+        Vector<ProdutoInfo> produtosEncontrados = new Vector<ProdutoInfo>();
+        for (int i = 0; i < medicamentos.size(); i++)
+        {
+            //passa ambos os lados pra lower case pra buscar, assim acha tudo
+            if(medicamentos.get(i).getNome().toLowerCase().contains(word.toLowerCase()) || medicamentos.get(i).getMarca().toLowerCase().contains(word.toLowerCase()))
+            {
+                produtosEncontrados.add(medicamentos.get(i));
+            }
+        }
 
+        return produtosEncontrados;
     }
 
 }
