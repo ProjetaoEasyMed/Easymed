@@ -9,78 +9,84 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="easymed.usuario.ConfirmarPedido">
 
-    <Button
+
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirmar"
-        android:id="@+id/confirm_button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="46dp"
-        android:background="@mipmap/button_bg"
-        android:textColor="#ffffff" />
+        android:id="@+id/listView"
+        android:layout_alignParentStart="true"
+        android:choiceMode="none"
+        android:layout_above="@+id/radioGroup" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
+        android:layout_above="@+id/confirm_button"
+        android:layout_centerHorizontal="true">
+
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton2"
+            android:src="@mipmap/cash"
+            android:scaleType="fitCenter"
+            android:layout_alignTop="@+id/radioGroup"
+            android:layout_alignEnd="@+id/confirm_button"
+            android:layout_alignBottom="@+id/radioGroup" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dinheiro "
+            android:id="@+id/radioButton2"
+            android:layout_alignTop="@+id/radioButton"
+            android:layout_alignStart="@+id/confirm_button"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cartão"
+            android:id="@+id/radioButton"
+            android:checked="false"
+            android:layout_alignTop="@+id/radioGroup"
+            android:layout_toEndOf="@+id/radioGroup" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton"
+            android:src="@mipmap/card"
+            android:scaleType="centerCrop"
+            android:layout_above="@+id/radioGroup"
+            android:layout_alignEnd="@+id/radioGroup" />
+
+    </RadioGroup>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Voltar"
         android:id="@+id/back_button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="48dp"
         android:background="@mipmap/button_bg"
         android:enabled="true"
         android:focusableInTouchMode="true"
         android:focusable="false"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/listView" />
 
-    <RadioButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cartão"
-        android:id="@+id/radioButton"
-        android:layout_marginBottom="25dp"
-        android:checked="false"
-        android:layout_above="@+id/back_button"
-        android:layout_alignStart="@+id/back_button" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dinheiro "
-        android:id="@+id/radioButton2"
-        android:layout_alignTop="@+id/radioButton"
-        android:layout_alignStart="@+id/confirm_button"
-        android:checked="false" />
-
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="70dp"
-        android:id="@+id/imageButton"
-        android:src="@mipmap/card"
-        android:scaleType="centerCrop"
-        android:layout_above="@+id/radioButton"
-        android:layout_alignEnd="@+id/radioButton" />
-        <!--android:layout_alignEnd="@+id/radioButton"-->
+        android:text="Confirmar"
+        android:id="@+id/confirm_button"
+        android:background="@mipmap/button_bg"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-    <ImageButton
-        android:layout_width="120dp"
-        android:layout_height="20dp"
-        android:id="@+id/imageButton2"
-        android:src="@mipmap/cash"
-        android:scaleType="fitCenter"
-        android:layout_alignTop="@+id/imageButton"
-        android:layout_alignEnd="@+id/confirm_button"
-        android:layout_alignBottom="@+id/imageButton" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="270dp"
-        android:id="@+id/listView"
-        android:layout_alignParentStart="true"
-        android:choiceMode="none" />
-        <!--android:layout_alignParentEnd="true"-->
-        android:layout_below="@+id/textView3"
-        android:layout_above="@+id/imageButton" />
 </RelativeLayout>
