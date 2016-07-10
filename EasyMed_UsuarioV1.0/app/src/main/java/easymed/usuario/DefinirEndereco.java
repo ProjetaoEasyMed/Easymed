@@ -71,6 +71,7 @@ public class DefinirEndereco extends AppCompatActivity {
                 intent.putExtra("endereco", correios);
 
                 startActivity(intent);
+                finish();
             }
         });
     }
