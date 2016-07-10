@@ -48,9 +48,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="easymed.usuario.MainActivity" />
         </activity>
-        <activity android:name=".ConfirmarPedido" />
-        <activity android:name=".Aguarde" />
-        <activity android:name=".PedidoRealizado" />
+        <activity
+            android:name=".ConfirmarPedido"
+            android:label="@string/title_confirmarpedido"></activity>
+        <activity
+            android:name=".Aguarde"
+            android:label="@string/title_aguarde"></activity>
+        <activity android:name=".PedidoRealizado"
+            android:label="@string/title_pedidorealizado"></activity>
         <activity
             android:name=".DefinirEndereco"
             android:label="@string/title_activity_definir_endereco"
