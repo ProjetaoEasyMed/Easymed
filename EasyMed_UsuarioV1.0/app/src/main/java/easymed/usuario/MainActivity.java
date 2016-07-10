@@ -13,10 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView serverSyncText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        /* Arriba CABRÓN!!! */
+        serverSyncText = (TextView) findViewById(R.id.serverSyncText);
+        animandoTexto();
+
+        
     }
 
     @Override
@@ -120,5 +134,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    /* "Toma gostosa, lapada na rachada! Você pede e eu te dou, lapada na rachada!" (variável animada agora) */
+    public void animandoTexto()
+    {
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.sync_animation);
+
+        if(serverSyncText.isEnabled())
+        {
+            serverSyncText.startAnimation(animation);
+        }
     }
 }
