@@ -52,9 +52,14 @@
         <activity android:name=".Aguarde" />
         <activity android:name=".PedidoRealizado" />
         <activity
+            android:name=".DefinirEndereco"
+            android:label="@string/title_activity_definir_endereco"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+         <activity
             android:name=".ListaPedidosCadastrados"
             android:label="@string/title_activity_lista_pedidos_cadastrados"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
+             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+    </application>
 </manifest>
+

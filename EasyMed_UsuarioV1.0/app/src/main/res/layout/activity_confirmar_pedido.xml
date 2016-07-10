@@ -30,50 +30,50 @@
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New RadioButton"
+        android:text="Cartão"
         android:id="@+id/radioButton"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="25dp"
+        android:checked="false"
         android:layout_above="@+id/back_button"
-        android:layout_alignStart="@+id/back_button"
-        android:checked="false" />
+        android:layout_alignStart="@+id/back_button" />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New RadioButton"
+        android:text="Dinheiro "
         android:id="@+id/radioButton2"
         android:layout_alignTop="@+id/radioButton"
-        android:layout_alignStart="@+id/confirm_button" />
+        android:layout_alignStart="@+id/confirm_button"
+        android:checked="false" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
         android:id="@+id/imageButton"
         android:src="@mipmap/card"
-        android:layout_alignTop="@+id/imageButton2"
+        android:scaleType="centerCrop"
+        android:layout_above="@+id/radioButton"
+        android:layout_alignEnd="@+id/radioButton" />
+        <!--android:layout_alignEnd="@+id/radioButton"-->
         android:layout_alignParentStart="true" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="20dp"
         android:id="@+id/imageButton2"
         android:src="@mipmap/cash"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_alignEnd="@+id/confirm_button"
+        android:layout_alignBottom="@+id/imageButton" />
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pedido"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/imageButton" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
-        android:layout_toStartOf="@+id/radioButton2" />
+        android:layout_height="270dp"
+        android:id="@+id/listView"
+        android:layout_alignParentStart="true"
+        android:choiceMode="none" />
+        <!--android:layout_alignParentEnd="true"-->
+        android:layout_below="@+id/textView3"
+        android:layout_above="@+id/imageButton" />
 </RelativeLayout>
