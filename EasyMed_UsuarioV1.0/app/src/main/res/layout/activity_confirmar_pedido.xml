@@ -16,7 +16,11 @@
         android:id="@+id/listaProdutosPagar"
         android:layout_alignParentStart="true"
         android:choiceMode="none"
-        android:layout_above="@+id/radioGroup" />
+        android:layout_above="@+id/radioGroup"
+        android:foregroundGravity="top|center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="false" />
 
     <RadioGroup
         android:layout_width="wrap_content"
