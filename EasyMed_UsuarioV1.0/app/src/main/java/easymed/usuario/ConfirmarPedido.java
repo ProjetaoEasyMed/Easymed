@@ -76,31 +76,6 @@ public class ConfirmarPedido extends AppCompatActivity {
             arrayAdapter.add(medicamentos.get(i).getNome());
         }
         listaProdutosPagar.setAdapter(arrayAdapter);
-        /*
-        for(int i = 0; i < medicamentos.size(); i++)
-        {
-            TableRow linha = new TableRow(this);
-
-            TextView nome = new TextView(this);
-            nome.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-            TextView marca = new TextView(this);
-            marca.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-            TextView preco = new TextView(this);
-            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-
-            nome.setText(medicamentos.get(i).getNome());
-            marca.setText(medicamentos.get(i).getMarca());
-            String p = "RS " + String.format("%.2f", medicamentos.get(i).getPreco());
-            preco.setText(p);
-
-            linha.addView(nome);
-            linha.addView(new Space(this));
-            linha.addView(marca);
-            linha.addView(new Space(this));
-            linha.addView(preco);
-
-            listMedicines.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        }*/
     }
 
     public Vector<ProdutoInfo> getProdutoListLocal()

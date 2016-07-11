@@ -1,5 +1,6 @@
 package easymed.usuario;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.Vector;
 
 import easymed.usuario.produtos.ProdutoInfo;
@@ -55,16 +60,7 @@ public class ScrollingActivity extends AppCompatActivity {
         listMedicines = (TableLayout) findViewById(R.id.listMedicines);
         barraPesquisa = (EditText) findViewById(R.id.barraPesquisa);
 
-        medicamentos = new Vector<ProdutoInfo>();
-
-        //Povoamento de Exemplo
-        medicamentos.add(new ProdutoInfo(1,"Viagra", "Azulzinho", 15.90, "caixa", 10));
-        medicamentos.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
-        medicamentos.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
-        medicamentos.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
-        medicamentos.add(new ProdutoInfo(5,"Mussum Ipsum", "Mussum", 10000000.00, "ipsum", 10000));
-        medicamentos.add(new ProdutoInfo(6,"Licor de Cacau", "Xavier", 5.00, "ml", 50));
-        //Fim do Povoamento
+        medicamentos = getProdutoListLocal();
 
         imprimeListaNaTela(medicamentos);
     }
@@ -120,4 +116,15 @@ public class ScrollingActivity extends AppCompatActivity {
         return produtosEncontrados;
     }
 
+    public Vector<ProdutoInfo> getProdutoListLocal()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaLocal.getString(GlobalValues.produtos, "");
+        Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
+        Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
+
+        return medicamentos;
+    }
 }
