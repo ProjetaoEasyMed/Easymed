@@ -13,6 +13,7 @@ import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -60,9 +61,14 @@ public class ScrollingActivity extends AppCompatActivity {
         listMedicines = (TableLayout) findViewById(R.id.listMedicines);
         barraPesquisa = (EditText) findViewById(R.id.barraPesquisa);
 
-        medicamentos = getProdutoListLocal();
+        medicamentos = getProdutoListGlobal();
 
-        imprimeListaNaTela(medicamentos);
+        if(medicamentos != null)
+            imprimeListaNaTela(medicamentos);
+        else
+        {
+            Toast.makeText(ScrollingActivity.this, "A lista de medicamentos da farmácia está vazia. Tente mais tarde...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -78,11 +84,11 @@ public class ScrollingActivity extends AppCompatActivity {
             TableRow linha = new TableRow(this);
 
             TextView nome = new TextView(this);
-            nome.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            nome.setTextAppearance(this, android.R.style.TextAppearance_Large);
             TextView marca = new TextView(this);
-            marca.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            marca.setTextAppearance(this, android.R.style.TextAppearance_Large);
             TextView preco = new TextView(this);
-            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            preco.setTextAppearance(this, android.R.style.TextAppearance_Large);
 
             nome.setText(medicamentos.get(i).getNome());
             marca.setText(medicamentos.get(i).getMarca());
@@ -116,12 +122,12 @@ public class ScrollingActivity extends AppCompatActivity {
         return produtosEncontrados;
     }
 
-    public Vector<ProdutoInfo> getProdutoListLocal()
+    public Vector<ProdutoInfo> getProdutoListGlobal()
     {
-        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+        SharedPreferences listaGlobal = getSharedPreferences(GlobalValues.listaGlobal, MODE_PRIVATE);
 
         Gson gson = new Gson();
-        String keyJson = listaLocal.getString(GlobalValues.produtos, "");
+        String keyJson = listaGlobal.getString(GlobalValues.produtos, "");
         Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
         Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
 
