@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Vector;
 
 import easymed.usuario.produtos.ProdutoInfo;
@@ -31,6 +32,8 @@ public class ScrollingActivity extends AppCompatActivity {
     private EditText barraPesquisa;
 
     private Vector<ProdutoInfo> medicamentos;
+
+    private HashMap<Integer, Integer> idVSqtd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,20 @@ public class ScrollingActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(listMedicines.getChildCount());
+
+                for (int i = 0; i < listMedicines.getChildCount(); i++)
+                {
+                    TableRow row = (TableRow) listMedicines.getChildAt(i);
+
+                    if(row.getChildAt(0) instanceof EditText)
+                    {
+                        int qtd = Integer.parseInt(((EditText) row.getChildAt(0)).getText().toString());
+
+                        if (qtd > 0) {
+                            idVSqtd.put(row.getId(), qtd);
+                        }
+                    }
+                }
 
             }
         });
@@ -71,6 +87,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
         /* O MONSTRO SAIU DA JAULA!!! */
+        idVSqtd = new HashMap<Integer, Integer>();
         listMedicines = (TableLayout) findViewById(R.id.listMedicines);
         barraPesquisa = (EditText) findViewById(R.id.barraPesquisa);
 
