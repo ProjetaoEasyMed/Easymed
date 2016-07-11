@@ -1,5 +1,6 @@
 package easymed.usuario;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,7 +23,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -111,7 +116,7 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
 
         //será preenchido com a quantidade de medicamento (vindo de algum canto) pelo paciente logado
         //padrão: <id do produto, quantidade que o usuário compra>
-        Map<Integer,Integer> produtoQuantidadePorUsuario = new HashMap<Integer, Integer>();
+        Map<Integer,Integer> produtoQuantidadePorUsuario = getQuantidadePorUsuario();
 
         //povoamento de exemplo:
         listaProd = new Vector<>();
@@ -126,6 +131,7 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
         produtoQuantidadePorUsuario.put(4, 1);
         //produtoQuantidadePorUsuario.put(5, 1);
         //fim do povoamento de exemplo
+        listaProd = getProdutoListGlobal();
 
         Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
         if(it.hasNext())
@@ -177,6 +183,30 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
         }
 
         return element;
+    }
+
+    public Vector<ProdutoInfo> getProdutoListGlobal()
+    {
+        SharedPreferences listaGlobal = getSharedPreferences(GlobalValues.listaGlobal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaGlobal.getString(GlobalValues.produtos, "");
+        Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
+        Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
+
+        return medicamentos;
+    }
+
+    public HashMap<Integer, Integer> getQuantidadePorUsuario()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaLocal.getString(GlobalValues.quantidade, "");
+        Type typeOfT = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
+        HashMap<Integer,Integer> qtdUser = gson.fromJson(keyJson, typeOfT);
+
+        return qtdUser;
     }
 
 }

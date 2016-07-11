@@ -1,6 +1,7 @@
 package easymed.usuario;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -180,59 +185,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void plotarTabela()
     {
-        Map<Integer,Integer> produtoQuantidadePorUsuario = new HashMap<Integer, Integer>();
+        Map<Integer,Integer> produtoQuantidadePorUsuario = getQuantidadePorUsuario();
 
-        //povoamento de exemplo:
-        listaProd = new Vector<>();
-        listaProd.add(new ProdutoInfo(1,"Viagra", "Azulzinho", 15.90, "caixa", 10));
-        listaProd.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
-        listaProd.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
-        listaProd.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
-        listaProd.add(new ProdutoInfo(5,"Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius", "Mussum", 10000000.00, "ipsum", 10000));
+        listaProd = getProdutoListGlobal();
 
-        produtoQuantidadePorUsuario.put(1, 3);
-        produtoQuantidadePorUsuario.put(3, 5);
-        produtoQuantidadePorUsuario.put(4, 1);
-        //produtoQuantidadePorUsuario.put(5, 1);
-        //fim do povoamento de exemplo
-
-        Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
-        if(it.hasNext())
+        if(produtoQuantidadePorUsuario != null)
         {
-            serverSyncText.setEnabled(false);
-            serverSyncText.clearAnimation();
-            mainTable.removeView(serverSyncText);
+            Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
+
+            if (it.hasNext()) {
+                serverSyncText.setEnabled(false);
+                serverSyncText.clearAnimation();
+                mainTable.removeView(serverSyncText);
+            }
+
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+
+                TableRow linha = new TableRow(this);
+
+                TextView qtd = new TextView(this);
+                qtd.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+                TextView nomeProduto = new TextView(this);
+                nomeProduto.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+                TextView preco = new TextView(this);
+                preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+
+                ProdutoInfo product = findProduct((int) pair.getKey());
+
+                qtd.setText(produtoQuantidadePorUsuario.get(product.getId()).toString());
+
+                nomeProduto.setText(product.getNome());
+
+                String p = "RS " + String.format("%.2f", product.getPreco());
+                preco.setText(p);
+
+                linha.addView(qtd);
+                linha.addView(nomeProduto);
+                linha.addView(preco);
+
+                mainTable.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            }
         }
-
-        while(it.hasNext())
-        {
-            Map.Entry pair = (Map.Entry) it.next();
-
-            TableRow linha = new TableRow(this);
-
-            TextView qtd = new TextView(this);
-            qtd.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-            TextView nomeProduto = new TextView(this);
-            nomeProduto.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-            TextView preco = new TextView(this);
-            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-
-            ProdutoInfo product = findProduct((int)pair.getKey());
-
-            qtd.setText(produtoQuantidadePorUsuario.get(product.getId()).toString());
-
-            nomeProduto.setText(product.getNome());
-
-            String p = "RS " + String.format("%.2f", product.getPreco());
-            preco.setText(p);
-
-            linha.addView(qtd);
-            linha.addView(nomeProduto);
-            linha.addView(preco);
-
-            mainTable.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        }
-
 
     }
 
@@ -250,5 +244,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    public Vector<ProdutoInfo> getProdutoListGlobal()
+    {
+        SharedPreferences listaGlobal = getSharedPreferences(GlobalValues.listaGlobal, MODE_PRIVATE);
 
+        Gson gson = new Gson();
+        String keyJson = listaGlobal.getString(GlobalValues.produtos, "");
+        Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
+        Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
+
+        return medicamentos;
+    }
+
+    public HashMap<Integer, Integer> getQuantidadePorUsuario()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaLocal.getString(GlobalValues.quantidade, "");
+        Type typeOfT = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
+        HashMap<Integer,Integer> qtdUser = gson.fromJson(keyJson, typeOfT);
+
+        return qtdUser;
+    }
 }

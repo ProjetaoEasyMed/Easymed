@@ -1,18 +1,27 @@
 package easymed.usuario;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Vector;
 
 import easymed.usuario.produtos.ProdutoInfo;
@@ -23,6 +32,8 @@ public class ScrollingActivity extends AppCompatActivity {
     private EditText barraPesquisa;
 
     private Vector<ProdutoInfo> medicamentos;
+
+    private HashMap<Integer, Integer> idVSqtd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +62,51 @@ public class ScrollingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        FloatingActionButton saveButton = (FloatingActionButton) findViewById(R.id.confirm_list_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                for (int i = 0; i < listMedicines.getChildCount(); i++)
+                {
+                    TableRow row = (TableRow) listMedicines.getChildAt(i);
+
+                    if(row.getChildAt(0) instanceof EditText)
+                    {
+                        int qtd;
+                        try {
+                            qtd = Integer.parseInt(((EditText) row.getChildAt(0)).getText().toString());
+                        }
+                        catch (Exception e)
+                        {
+                            qtd = 0;
+                        }
+
+                        if (qtd > 0) {
+                            idVSqtd.put(row.getId(), qtd);
+                        }
+                    }
+                }
+
+                atualizandoNumeroPedidos();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         /* O MONSTRO SAIU DA JAULA!!! */
+        idVSqtd = new HashMap<Integer, Integer>();
         listMedicines = (TableLayout) findViewById(R.id.listMedicines);
         barraPesquisa = (EditText) findViewById(R.id.barraPesquisa);
 
-        medicamentos = new Vector<ProdutoInfo>();
+        medicamentos = getProdutoListGlobal();
 
-        //Povoamento de Exemplo
-        medicamentos.add(new ProdutoInfo(1,"Viagra", "Azulzinho", 15.90, "caixa", 10));
-        medicamentos.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
-        medicamentos.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
-        medicamentos.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
-        medicamentos.add(new ProdutoInfo(5,"Mussum Ipsum", "Mussum", 10000000.00, "ipsum", 10000));
-        medicamentos.add(new ProdutoInfo(6,"Licor de Cacau", "Xavier", 5.00, "ml", 50));
-        //Fim do Povoamento
-
-        imprimeListaNaTela(medicamentos);
+        if(medicamentos != null)
+            imprimeListaNaTela(medicamentos);
+        else
+        {
+            Toast.makeText(ScrollingActivity.this, "A lista de medicamentos da farmácia está vazia. Tente mais tarde...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -80,19 +120,27 @@ public class ScrollingActivity extends AppCompatActivity {
         for(int i = 0; i < medicamentos.size(); i++)
         {
             TableRow linha = new TableRow(this);
+            linha.setId(medicamentos.get(i).getId());
+
+            EditText num = new EditText(this);
+            num.setText("0");
+            num.setInputType(InputType.TYPE_CLASS_NUMBER);
+            num.setTextAppearance(this, android.R.style.TextAppearance_Large);
 
             TextView nome = new TextView(this);
-            nome.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            nome.setTextAppearance(this, android.R.style.TextAppearance_Large);
             TextView marca = new TextView(this);
-            marca.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            marca.setTextAppearance(this, android.R.style.TextAppearance_Large);
             TextView preco = new TextView(this);
-            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+            preco.setTextAppearance(this, android.R.style.TextAppearance_Large);
 
             nome.setText(medicamentos.get(i).getNome());
             marca.setText(medicamentos.get(i).getMarca());
             String p = "RS " + String.format("%.2f", medicamentos.get(i).getPreco());
             preco.setText(p);
 
+            linha.addView(num);
+            linha.addView(new Space(this));
             linha.addView(nome);
             linha.addView(new Space(this));
             linha.addView(marca);
@@ -120,4 +168,26 @@ public class ScrollingActivity extends AppCompatActivity {
         return produtosEncontrados;
     }
 
+    public Vector<ProdutoInfo> getProdutoListGlobal()
+    {
+        SharedPreferences listaGlobal = getSharedPreferences(GlobalValues.listaGlobal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaGlobal.getString(GlobalValues.produtos, "");
+        Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
+        Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
+
+        return medicamentos;
+    }
+
+    private void atualizandoNumeroPedidos()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        SharedPreferences.Editor prefsEditor = listaLocal.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(idVSqtd);
+        prefsEditor.putString(GlobalValues.quantidade, json);
+        prefsEditor.apply();
+    }
 }
