@@ -9,20 +9,26 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.List;
-import java.util.Vector;
-import java.util.jar.Manifest;
 
 public class DefinirEndereco extends AppCompatActivity {
 
@@ -50,12 +56,19 @@ public class DefinirEndereco extends AppCompatActivity {
     private Location location;
     private LocationManager locationManager;
 
+    private RequestQueue requestQueue;
+    JSONObject jsonObj = new JSONObject();
+    JSONObject jsonObj2 = new JSONObject();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_definir_endereco);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        requestQueue = Volley.newRequestQueue(this);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +93,50 @@ public class DefinirEndereco extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DefinirEndereco.this, MainActivity.class);
+
+
+
+                try {
+                    jsonObj2.put("rua","caxanga");
+                    jsonObj2.put("numero","200");
+                    jsonObj2.put("complemento","apto. 2001, bloco c");
+                    jsonObj2.put("referencia","em frente a igreja do Carmo");
+                    jsonObj2.put("bairro","Madalena");
+                    jsonObj2.put("cidade","Recife");
+
+                    jsonObj.put("id_usuario","16ad2cfc769321c8128a743ef668f209");
+                    jsonObj.putOpt("endereco",jsonObj2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                final JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest(Request.Method.POST,
+                        "https://projetao-easymed.herokuapp.com/atualizaEndereco",
+                        jsonObj,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Toast.makeText(DefinirEndereco.this, "Enviando endereço para o servidor   /atualizaEndereco" + response.toString(), Toast.LENGTH_LONG).show();
+                                System.out.println("responde.to string ]===============================   " + response.toString());
+
+//                                try {
+////                                    jsonObj.put("itens",response.getJSONArray("itens"));
+////                            data = jsonObj.getJSONArray()
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+
+
+                            }
+                        },
+
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                            }
+                        }
+                );
+                requestQueue.add(jsonObjectRequest2);
 
                 Bundle correios = new Bundle();
                 correios.putString("rua", type_rua.getText().toString());

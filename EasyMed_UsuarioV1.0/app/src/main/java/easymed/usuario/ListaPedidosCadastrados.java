@@ -6,13 +6,23 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,12 +44,59 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
 
     private Vector<ProdutoInfo> listaProd;
 
+    private RequestQueue requestQueue;
+    JSONObject jsonObj = new JSONObject();
+    JSONObject response2 = new JSONObject();
+
+    JSONObject jsonObj2 = new JSONObject();
+    JSONArray jsonList = new JSONArray();
+
+    String data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pedidos_cadastrados);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        requestQueue = Volley.newRequestQueue(this);
+
+
+        try {
+            jsonObj.put("id_usuario","16ad2cfc769321c8128a743ef668f209");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest(Request.Method.POST,
+                "https://projetao-easymed.herokuapp.com/listaPadrao",
+                jsonObj,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(ListaPedidosCadastrados.this, "Pedindo lista para o servidor   /listaPadrao" + response.toString(), Toast.LENGTH_LONG).show();
+                        response2 = response;
+                        try {
+                            data = response.get("data").toString();
+                            jsonObj.put("itens",response.getJSONArray("itens"));
+//                            data = jsonObj.getJSONArray()
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("responde.to string ]===============================   " + data);
+
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest2);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +119,18 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
         Map<Integer,Integer> produtoQuantidadePorUsuario = getQuantidadePorUsuario();
 
         //povoamento de exemplo:
+        listaProd = new Vector<>();
+        listaProd.add(new ProdutoInfo(1, "Viagra", "Azulzinho", 15.90, "caixa", 10));
+        listaProd.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
+        listaProd.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
+        listaProd.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
+        listaProd.add(new ProdutoInfo(5,"Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius", "Mussum", 10000000.00, "ipsum", 10000));
+
+        produtoQuantidadePorUsuario.put(1, 3);
+        produtoQuantidadePorUsuario.put(3, 5);
+        produtoQuantidadePorUsuario.put(4, 1);
+        //produtoQuantidadePorUsuario.put(5, 1);
+        //fim do povoamento de exemplo
         listaProd = getProdutoListGlobal();
 
         Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
