@@ -58,14 +58,7 @@ public class ConfirmarPedido extends AppCompatActivity {
         /* Ordináaaaaaaria TCHU PÁ */
         listaProdutosPagar = (ListView) findViewById(R.id.listaProdutosPagar);
 
-        listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
-
-        Gson gson = new Gson();
-        String keyJson = listaLocal.getString(GlobalValues.produtos, "");
-        Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
-        Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
-
-        imprimeListaNaTela(medicamentos);
+        imprimeListaNaTela(getProdutoListLocal());
 
     }
 
@@ -108,6 +101,18 @@ public class ConfirmarPedido extends AppCompatActivity {
 
             listMedicines.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }*/
+    }
+
+    public Vector<ProdutoInfo> getProdutoListLocal()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaLocal.getString(GlobalValues.produtos, "");
+        Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
+        Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
+
+        return medicamentos;
     }
 
 }
