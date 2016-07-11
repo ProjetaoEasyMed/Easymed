@@ -17,5 +17,9 @@ import easymed.usuario.produtos.ProdutoInfo;
 public class GlobalValues
 {
     public static final String listaLocal = "ListaLocal";
+    public static final String listaGlobal = "ListaGlobal";
+
     public static final String produtos = "Produtos";
+    public static final String quantidade = "Quantidade";
+
 }

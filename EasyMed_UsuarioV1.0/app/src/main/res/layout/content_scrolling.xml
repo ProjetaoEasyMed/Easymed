@@ -8,51 +8,73 @@
     tools:context="easymed.usuario.ScrollingActivity"
     tools:showIn="@layout/activity_scrolling">
 
-    <TableLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listMedicines">
+        android:layout_height="match_parent">
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/horizontalScrollView">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/listMedicines">
 
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:shrinkColumns="*"
-            android:stretchColumns="*"
-            android:orientation="vertical">
-
-            <TextView
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Nome"
-                android:id="@+id/textView10"
-                android:textStyle="bold" />
+                android:shrinkColumns="*"
+                android:stretchColumns="*"
+                android:orientation="vertical">
 
-            <Space
-                android:layout_width="20px"
-                android:layout_height="20px" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Qtd"
+                    android:id="@+id/textView13"
+                    android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Marca"
-                android:id="@+id/textView11"
-                android:textStyle="bold" />
+                <Space
+                    android:layout_width="20px"
+                    android:layout_height="20px"/>
 
-            <Space
-                android:layout_width="20px"
-                android:layout_height="20px" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Nome"
+                    android:id="@+id/textView10"
+                    android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Preço"
-                android:id="@+id/textView12"
-                android:textStyle="bold"/>
-        </TableRow>
-    </TableLayout>
+                <Space
+                    android:layout_width="20px"
+                    android:layout_height="20px"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Marca"
+                    android:id="@+id/textView11"
+                    android:textStyle="bold"/>
+
+                <Space
+                    android:layout_width="20px"
+                    android:layout_height="20px"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Preço"
+                    android:id="@+id/textView12"
+                    android:textStyle="bold"/>
+            </TableRow>
+        </TableLayout>
+    </HorizontalScrollView>
+
+    </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
