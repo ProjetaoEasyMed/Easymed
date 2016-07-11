@@ -6,9 +6,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -57,6 +59,17 @@ public class ScrollingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        FloatingActionButton saveButton = (FloatingActionButton) findViewById(R.id.confirm_list_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println(listMedicines.getChildCount());
+
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         /* O MONSTRO SAIU DA JAULA!!! */
         listMedicines = (TableLayout) findViewById(R.id.listMedicines);
         barraPesquisa = (EditText) findViewById(R.id.barraPesquisa);
@@ -82,6 +95,12 @@ public class ScrollingActivity extends AppCompatActivity {
         for(int i = 0; i < medicamentos.size(); i++)
         {
             TableRow linha = new TableRow(this);
+            linha.setId(medicamentos.get(i).getId());
+
+            EditText num = new EditText(this);
+            num.setText("0");
+            num.setInputType(InputType.TYPE_CLASS_NUMBER);
+            num.setTextAppearance(this, android.R.style.TextAppearance_Large);
 
             TextView nome = new TextView(this);
             nome.setTextAppearance(this, android.R.style.TextAppearance_Large);
@@ -95,6 +114,8 @@ public class ScrollingActivity extends AppCompatActivity {
             String p = "RS " + String.format("%.2f", medicamentos.get(i).getPreco());
             preco.setText(p);
 
+            linha.addView(num);
+            linha.addView(new Space(this));
             linha.addView(nome);
             linha.addView(new Space(this));
             linha.addView(marca);

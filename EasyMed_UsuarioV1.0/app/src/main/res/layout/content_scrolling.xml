@@ -8,6 +8,9 @@
     tools:context="easymed.usuario.ScrollingActivity"
     tools:showIn="@layout/activity_scrolling">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,13 +33,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Nome"
-                    android:id="@+id/textView10"
-                    android:textStyle="bold" />
+                    android:text="Qtd"
+                    android:id="@+id/textView13"
+                    android:textStyle="bold"/>
 
                 <Space
                     android:layout_width="20px"
-                    android:layout_height="20px" />
+                    android:layout_height="20px"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Nome"
+                    android:id="@+id/textView10"
+                    android:textStyle="bold"/>
+
+                <Space
+                    android:layout_width="20px"
+                    android:layout_height="20px"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -44,11 +59,11 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Marca"
                     android:id="@+id/textView11"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <Space
                     android:layout_width="20px"
-                    android:layout_height="20px" />
+                    android:layout_height="20px"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -61,5 +76,5 @@
         </TableLayout>
     </HorizontalScrollView>
 
-
+    </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
