@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +26,8 @@ public class ConfirmarPedido extends AppCompatActivity {
     private RequestQueue requestQueue;
 
     JSONObject jsonObj = new JSONObject();
+    JSONObject jsonObj2 = new JSONObject();
+    JSONArray jsonList = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +55,15 @@ public class ConfirmarPedido extends AppCompatActivity {
 
 
                 try {
-                    jsonObj.put("_id","16ad2cfc769321c8128a743ef668f209");
-                    jsonObj.putOpt("lista_padrao",jsonObj);
-                    jsonObj.put("lista_padrao","2");
-                    jsonObj.put("tipo","produto");
+                    jsonObj2.put("nome","fralda pampers");
+                    jsonObj2.put("quantidade","3");
+                    jsonObj2.put("tipo","produto");
+
+                    jsonList.put(0,jsonObj2);
+                    jsonList.put(1,jsonObj2);
+
+                    jsonObj.put("id_usuario","16ad2cfc769321c8128a743ef668f209");
+                    jsonObj.putOpt("lista_padrao",jsonList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -66,7 +74,8 @@ public class ConfirmarPedido extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                    Toast.makeText(ConfirmarPedido.this, "Enviando lista para o servidor   /atualizaLista", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ConfirmarPedido.this, "Enviando lista para o servidor   /atualizaLista" + response.toString(), Toast.LENGTH_LONG).show();
+                                System.out.println("responde.to string ]===============================>   " + response.toString());
                             }
                         },
 

@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,7 +40,13 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
     private Vector<ProdutoInfo> listaProd;
 
     private RequestQueue requestQueue;
-    JSONObject jsonObj = new JSONObject();;
+    JSONObject jsonObj = new JSONObject();
+    JSONObject response2 = new JSONObject();
+
+    JSONObject jsonObj2 = new JSONObject();
+    JSONArray jsonList = new JSONArray();
+
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,7 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
 
 
         try {
-            jsonObj.put("_id","16ad2cfc769321c8128a743ef668f209");
+            jsonObj.put("id_usuario","16ad2cfc769321c8128a743ef668f209");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -63,7 +70,18 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(ListaPedidosCadastrados.this, "Pedindo lista para o servidor   /listaPadrao", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ListaPedidosCadastrados.this, "Pedindo lista para o servidor   /listaPadrao" + response.toString(), Toast.LENGTH_LONG).show();
+                        response2 = response;
+                        try {
+                            data = response.get("data").toString();
+                            jsonObj.put("itens",response.getJSONArray("itens"));
+//                            data = jsonObj.getJSONArray()
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("responde.to string ]===============================   " + data);
+
+
                     }
                 },
 
@@ -97,7 +115,7 @@ public class ListaPedidosCadastrados extends AppCompatActivity {
 
         //povoamento de exemplo:
         listaProd = new Vector<>();
-        listaProd.add(new ProdutoInfo(1,"Viagra", "Azulzinho", 15.90, "caixa", 10));
+        listaProd.add(new ProdutoInfo(1, "Viagra", "Azulzinho", 15.90, "caixa", 10));
         listaProd.add(new ProdutoInfo(2,"Seringas", "BD", 3.50, "pacote", 20));
         listaProd.add(new ProdutoInfo(3,"Insulina", "Apidra", 25.99, "refil", 1));
         listaProd.add(new ProdutoInfo(4,"Curativos", "Band-Aid", 2.00, "caixa", 10));
