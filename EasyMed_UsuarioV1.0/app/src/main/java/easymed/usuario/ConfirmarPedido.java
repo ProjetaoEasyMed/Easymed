@@ -24,7 +24,7 @@ public class ConfirmarPedido extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
-    JSONObject jsonObj = new JSONObject();;
+    JSONObject jsonObj = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +50,11 @@ public class ConfirmarPedido extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 try {
-                    jsonObj.put("nome","fralda pampers");
-                    jsonObj.put("quantidade","2");
+                    jsonObj.put("_id","16ad2cfc769321c8128a743ef668f209");
+                    jsonObj.putOpt("lista_padrao",jsonObj);
+                    jsonObj.put("lista_padrao","2");
                     jsonObj.put("tipo","produto");
                 } catch (JSONException e) {
                     e.printStackTrace();

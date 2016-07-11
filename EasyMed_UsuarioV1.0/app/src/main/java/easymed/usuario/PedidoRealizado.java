@@ -16,20 +16,6 @@ public class PedidoRealizado extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_realizado);
 
-        definir_padrao = (Button) findViewById(R.id.definir_padrao);
-        definir_padrao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(PedidoRealizado.this, MainActivity.class);
-//                enviar para o botao o padrao definido
-
-//                it.putExtra("fbJsonObj", jsonObj.toString());
-//                it.putExtra("jsonObjDados",jsonObjDados.toString());
-                startActivity(it);
-                finish();
-            }
-        });
-
         home_screen = (Button) findViewById(R.id.home_screen);
         home_screen.setOnClickListener(new View.OnClickListener() {
             @Override
