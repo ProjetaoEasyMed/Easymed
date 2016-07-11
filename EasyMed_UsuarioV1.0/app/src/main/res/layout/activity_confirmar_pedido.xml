@@ -13,10 +13,14 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
+        android:id="@+id/listaProdutosPagar"
         android:layout_alignParentStart="true"
         android:choiceMode="none"
-        android:layout_above="@+id/radioGroup" />
+        android:layout_above="@+id/radioGroup"
+        android:foregroundGravity="top|center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="false" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -77,7 +81,7 @@
         android:focusable="false"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/listView" />
+        android:layout_alignEnd="@+id/listaProdutosPagar" />
 
     <Button
         android:layout_width="wrap_content"
