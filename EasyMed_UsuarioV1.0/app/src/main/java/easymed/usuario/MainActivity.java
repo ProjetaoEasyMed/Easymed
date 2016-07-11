@@ -185,54 +185,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void plotarTabela()
     {
-        Map<Integer,Integer> produtoQuantidadePorUsuario = new HashMap<Integer, Integer>();
+        Map<Integer,Integer> produtoQuantidadePorUsuario = getQuantidadePorUsuario();
 
-        listaProd = getProdutoListLocal();
+        listaProd = getProdutoListGlobal();
 
-        //povoamento de exemplo:
-        produtoQuantidadePorUsuario.put(1, 3);
-        produtoQuantidadePorUsuario.put(3, 5);
-        produtoQuantidadePorUsuario.put(4, 1);
-        //produtoQuantidadePorUsuario.put(5, 1);
-        //fim do povoamento de exemplo
-
-        Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
-        if(it.hasNext())
+        if(produtoQuantidadePorUsuario != null)
         {
-            serverSyncText.setEnabled(false);
-            serverSyncText.clearAnimation();
-            mainTable.removeView(serverSyncText);
+            Iterator it = produtoQuantidadePorUsuario.entrySet().iterator();
+
+            if (it.hasNext()) {
+                serverSyncText.setEnabled(false);
+                serverSyncText.clearAnimation();
+                mainTable.removeView(serverSyncText);
+            }
+
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+
+                TableRow linha = new TableRow(this);
+
+                TextView qtd = new TextView(this);
+                qtd.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+                TextView nomeProduto = new TextView(this);
+                nomeProduto.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+                TextView preco = new TextView(this);
+                preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
+
+                ProdutoInfo product = findProduct((int) pair.getKey());
+
+                qtd.setText(produtoQuantidadePorUsuario.get(product.getId()).toString());
+
+                nomeProduto.setText(product.getNome());
+
+                String p = "RS " + String.format("%.2f", product.getPreco());
+                preco.setText(p);
+
+                linha.addView(qtd);
+                linha.addView(nomeProduto);
+                linha.addView(preco);
+
+                mainTable.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            }
         }
-
-        while(it.hasNext())
-        {
-            Map.Entry pair = (Map.Entry) it.next();
-
-            TableRow linha = new TableRow(this);
-
-            TextView qtd = new TextView(this);
-            qtd.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-            TextView nomeProduto = new TextView(this);
-            nomeProduto.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-            TextView preco = new TextView(this);
-            preco.setTextAppearance(this, android.R.style.TextAppearance_Medium);
-
-            ProdutoInfo product = findProduct((int)pair.getKey());
-
-            qtd.setText(produtoQuantidadePorUsuario.get(product.getId()).toString());
-
-            nomeProduto.setText(product.getNome());
-
-            String p = "RS " + String.format("%.2f", product.getPreco());
-            preco.setText(p);
-
-            linha.addView(qtd);
-            linha.addView(nomeProduto);
-            linha.addView(preco);
-
-            mainTable.addView(linha, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        }
-
 
     }
 
@@ -250,15 +244,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public Vector<ProdutoInfo> getProdutoListLocal()
+    public Vector<ProdutoInfo> getProdutoListGlobal()
     {
-        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+        SharedPreferences listaGlobal = getSharedPreferences(GlobalValues.listaGlobal, MODE_PRIVATE);
 
         Gson gson = new Gson();
-        String keyJson = listaLocal.getString(GlobalValues.produtos, "");
+        String keyJson = listaGlobal.getString(GlobalValues.produtos, "");
         Type typeOfT = new TypeToken<Vector<ProdutoInfo>>(){}.getType();
         Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
 
         return medicamentos;
+    }
+
+    public HashMap<Integer, Integer> getQuantidadePorUsuario()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String keyJson = listaLocal.getString(GlobalValues.quantidade, "");
+        Type typeOfT = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
+        HashMap<Integer,Integer> qtdUser = gson.fromJson(keyJson, typeOfT);
+
+        return qtdUser;
     }
 }

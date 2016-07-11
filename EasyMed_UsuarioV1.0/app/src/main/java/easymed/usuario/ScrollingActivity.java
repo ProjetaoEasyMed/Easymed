@@ -73,7 +73,14 @@ public class ScrollingActivity extends AppCompatActivity {
 
                     if(row.getChildAt(0) instanceof EditText)
                     {
-                        int qtd = Integer.parseInt(((EditText) row.getChildAt(0)).getText().toString());
+                        int qtd;
+                        try {
+                            qtd = Integer.parseInt(((EditText) row.getChildAt(0)).getText().toString());
+                        }
+                        catch (Exception e)
+                        {
+                            qtd = 0;
+                        }
 
                         if (qtd > 0) {
                             idVSqtd.put(row.getId(), qtd);
@@ -81,6 +88,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     }
                 }
 
+                atualizandoNumeroPedidos();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -170,5 +178,16 @@ public class ScrollingActivity extends AppCompatActivity {
         Vector<ProdutoInfo> medicamentos = gson.fromJson(keyJson, typeOfT);
 
         return medicamentos;
+    }
+
+    private void atualizandoNumeroPedidos()
+    {
+        SharedPreferences listaLocal = getSharedPreferences(GlobalValues.listaLocal, MODE_PRIVATE);
+
+        SharedPreferences.Editor prefsEditor = listaLocal.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(idVSqtd);
+        prefsEditor.putString(GlobalValues.quantidade, json);
+        prefsEditor.apply();
     }
 }
